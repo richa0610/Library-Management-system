@@ -6,8 +6,11 @@ import com.example.richa.libraryManagementSystem.model.Author;
 import com.example.richa.libraryManagementSystem.model.Book;
 import com.example.richa.libraryManagementSystem.repository.BookRepository;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BookService {
@@ -43,5 +46,13 @@ public class BookService {
     public Book getBookDetailsV2(Integer bookId) {
        return this.bookRepository.findById(bookId).orElse(null);
 
+    }
+
+    public List<Book> getBooksIssuedToStudent(@Positive Integer studentId) {
+        return this.bookRepository.findByStudentId(studentId);
+    }
+
+    public void issueBookToStudent( Integer bookId,  Integer studentId) {
+        this.bookRepository.updateBookAvailability(bookId,studentId);
     }
 }
